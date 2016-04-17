@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="70dp"
+    android:background="@color/white"
+    >
+
+    <TextView
+        android:textSize="20sp"
+        android:text="A Graph Showing your Stress Levels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <lecho.lib.hellocharts.view.LineChartView
+        android:paddingTop="20dp"
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="250dp" />
+    <TextView
+        android:paddingTop="20dp"
+        android:textSize="20sp"
+        android:text="Summary of Results"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TableLayout
+        android:paddingTop="20dp"
+        android:id="@+id/resultsList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></TableLayout>
+
+</LinearLayout>

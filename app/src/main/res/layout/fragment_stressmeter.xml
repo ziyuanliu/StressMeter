@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:paddingTop="70dp">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textAlignment="center"
+        android:text="Touch the image that best captures how you feel right now"/>
+    <GridView
+        android:id="@+id/grid_view"
+        android:layout_width="match_parent"
+
+        android:numColumns="4"
+        android:layout_centerInParent="true"
+        android:layout_height="wrap_content"></GridView>
+    <Button
+        android:onClick="moreImagesClicked"
+        android:layout_width="match_parent"
+        android:text="MORE IMAGES"
+        android:layout_height="wrap_content" />
+</LinearLayout>
