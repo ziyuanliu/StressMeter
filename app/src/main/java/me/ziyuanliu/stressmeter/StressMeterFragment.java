@@ -87,7 +87,9 @@ public class StressMeterFragment extends Fragment{
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-
+                MainActivity.mp.stop();
+                MainActivity.vib.cancel();
+                MainActivity.endVibration = true;
                 Intent i = new Intent(getContext(), ImageSubmissionActivity.class);
                 i.putExtra("gridIndex", imgAdp.counter);
                 i.putExtra("photoIndex", position);

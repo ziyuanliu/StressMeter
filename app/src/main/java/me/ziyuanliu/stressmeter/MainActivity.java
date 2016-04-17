@@ -4,7 +4,14 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.media.audiofx.BassBoost;
+import android.net.Uri;
+import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +28,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 
 import java.io.File;
@@ -31,6 +39,10 @@ import java.util.Date;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 
+import android.media.MediaPlayer;
+import android.os.Vibrator;
+
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,6 +51,9 @@ public class MainActivity extends AppCompatActivity
     private Fragment stressFrag;
     private Fragment resultsFrag;
 
+    public static Boolean endVibration;
+    public static Vibrator vib;
+    public static MediaPlayer mp;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -147,6 +162,31 @@ public class MainActivity extends AppCompatActivity
         // insert the fragment over the current fragment layout
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
         verifyStoragePermissions(this);
+
+
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        mp = MediaPlayer.create(getApplicationContext(), notification);
+        mp.setLooping(true);
+        mp.start();
+
+        endVibration = false;
+        vib = (Vibrator) getSystemService(this.VIBRATOR_SERVICE);
+
+        final long[] pattern = {0, 1000, 1000, 1000, 1000};
+        new Thread(){
+            @Override
+            public void run() {
+                while(!endVibration){ //repeat the pattern 5 times
+                    vib.vibrate(pattern, -1);
+                    try {
+                        Thread.sleep(4000); //the time, the complete pattern needs
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
+        PSMScheduler.setSchedule(this);
     }
 
     @Override
@@ -196,6 +236,9 @@ public class MainActivity extends AppCompatActivity
 
             switch (id) {
                 case R.id.results:
+                    mp.stop();
+                    endVibration = true;
+                    vib.cancel();
                     fragTrans.replace(R.id.fragment_layout, resultsFrag);
                     break;
 
